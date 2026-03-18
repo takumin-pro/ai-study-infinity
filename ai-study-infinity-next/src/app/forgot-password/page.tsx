@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { resetPassword } from "@/app/actions/auth"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import styles from "@/app/auth.module.css"
 
-export default function ForgotPasswordPage() {
+function ForgotPasswordContent() {
   const searchParams = useSearchParams()
   const errorParam = searchParams.get("error")
   const messageParam = searchParams.get("message")
@@ -66,5 +66,13 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ForgotPasswordPage() {
+  return (
+    <Suspense fallback={<div className={styles.container}>読み込み中...</div>}>
+      <ForgotPasswordContent />
+    </Suspense>
   )
 }

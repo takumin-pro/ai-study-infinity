@@ -1,12 +1,12 @@
 "use client"
 
-import { useActionState, useEffect, useState } from "react"
+import { Suspense, useActionState, useEffect, useState } from "react"
 import { signup, signInWithGoogle } from "@/app/actions/auth"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import styles from "@/app/auth.module.css"
 
-export default function SignupPage() {
+function SignupContent() {
   const searchParams = useSearchParams()
   const errorParam = searchParams.get("error")
   
@@ -103,5 +103,13 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className={styles.container}>読み込み中...</div>}>
+      <SignupContent />
+    </Suspense>
   )
 }
