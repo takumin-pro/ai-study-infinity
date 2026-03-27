@@ -37,8 +37,9 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
-    console.error(error)
-    return redirect(`/login?error=${encodeURIComponent('メールアドレスまたはパスワードが間違っています')}`)
+    console.error("Login Error:", error)
+    // エラーが「Email not confirmed」等の場合にわかりやすくするため、メッセージをそのまま渡す（必要なら翻訳やハンドリングを追加）
+    return redirect(`/login?error=${encodeURIComponent(error.message || 'メールアドレスまたはパスワードが間違っています')}`)
   }
 
   revalidatePath("/dashboard")
@@ -61,6 +62,8 @@ export async function signup(formData: FormData) {
   }
 
   const supabase = await createClient()
+  const headersList = await headers()
+  const origin = headersList.get("origin")
 
   // Supabase Auth にユーザーを作成
   // (Email confirmation を有効にしている場合は確認メールが飛ぶ)
@@ -68,6 +71,7 @@ export async function signup(formData: FormData) {
     email,
     password,
     options: {
+      emailRedirectTo: origin ? `${origin}/auth/callback` : undefined,
       data: {
         parent_name: parentName,
         child_grade: childGrade,
