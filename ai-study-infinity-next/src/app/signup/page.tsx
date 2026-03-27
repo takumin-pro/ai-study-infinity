@@ -41,6 +41,40 @@ function SignupContent() {
 
         <form action={signup} onSubmit={() => setIsPending(true)} className={styles.form}>
           <div className={styles.inputGroup}>
+            <label htmlFor="parentName" className={styles.label}>
+              保護者様のお名前
+            </label>
+            <input
+              id="parentName"
+              name="parentName"
+              type="text"
+              required
+              placeholder="山田 太郎"
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label htmlFor="childGrade" className={styles.label}>
+              お子様の学年
+            </label>
+            <select
+              id="childGrade"
+              name="childGrade"
+              required
+              className={styles.input}
+              style={{ width: "100%", padding: "0.75rem", borderRadius: "0.5rem", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem" }}
+            >
+              <option value="">選択してください</option>
+              <option value="小学3年生">小学3年生</option>
+              <option value="小学4年生">小学4年生</option>
+              <option value="小学5年生">小学5年生</option>
+              <option value="小学6年生">小学6年生</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>
               メールアドレス
             </label>

@@ -49,6 +49,8 @@ export async function signup(formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
   const confirmPassword = formData.get("confirmPassword") as string
+  const parentName = formData.get("parentName") as string
+  const childGrade = formData.get("childGrade") as string
 
   if (password !== confirmPassword) {
     return redirect(`/signup?error=${encodeURIComponent('パスワードが一致しません')}`)
@@ -65,6 +67,12 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        parent_name: parentName,
+        child_grade: childGrade,
+      }
+    }
   })
 
   if (error) {
